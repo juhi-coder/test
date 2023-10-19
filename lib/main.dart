@@ -9,6 +9,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
+
   // to run project on edge remove this two lines
   //final appDocumentDir = await getApplicationDocumentsDirectory();
   //Hive.init(appDocumentDir.path);

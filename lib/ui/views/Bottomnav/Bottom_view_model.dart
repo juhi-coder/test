@@ -47,6 +47,20 @@ class BottomViewModel extends IndexTrackingViewModel {
 
   List<Widget> bottomList = [Face(), ShoppingCart(), Alarm(), Abc()];
 
+  final Map<IconData, int> originalViewIndexes = {
+    Icons.home: 0,
+    Icons.favorite_border_outlined: 1,
+    Icons.search: 2,
+    Icons.settings: 3,
+  };
+
+  final Map<IconData, int> bottomListIndexes = {
+    Icons.face: 0,
+    Icons.add_shopping_cart: 1,
+    Icons.access_alarm_rounded: 2,
+    Icons.abc: 3,
+  };
+
   List<IconData> popupMenuItems = [
     Icons.face,
     Icons.add_shopping_cart,
@@ -56,19 +70,19 @@ class BottomViewModel extends IndexTrackingViewModel {
 
   List<BottomNavigationBarItem> bottomNavBarItems = [
     const BottomNavigationBarItem(
-      label: '', // Empty string as label
+      label: '',
       icon: Icon(Icons.home),
     ),
     const BottomNavigationBarItem(
-      label: '', // Empty string as label
+      label: '',
       icon: Icon(Icons.favorite_border_outlined),
     ),
     const BottomNavigationBarItem(
-      label: '', // Empty string as label
+      label: '',
       icon: Icon(Icons.search),
     ),
     const BottomNavigationBarItem(
-      label: '', // Empty string as label
+      label: '',
       icon: Icon(Icons.settings),
     ),
   ];
@@ -76,16 +90,6 @@ class BottomViewModel extends IndexTrackingViewModel {
   // Track selected icons in the bottom nav
   List<IconData> selectedIcons = [];
   List<IconData> longpressedIcons = [];
-
-  final int homeOriginalIndex = 0;
-  final int likesOriginalIndex = 1;
-  final int searchOriginalIndex = 2;
-  final int settingsOriginalIndex = 3;
-
-  final int faceOriginalIndex = 0;
-  final int shoppingOriginalIndex = 1;
-  final int alarmOriginalIndex = 2;
-  final int abcOriginalIndex = 3;
 
   Widget getViewForIndex(int index) {
     return viewsList[index];
@@ -127,46 +131,27 @@ class BottomViewModel extends IndexTrackingViewModel {
     );
     if (selectedValue != null) {
       final selectedIconData = popupMenuItems[selectedValue];
-      final longPressedIconData = bottomNavBarItems[current_index];
-      // Check if the selected icon is already in the bottom nav
-      if (longPressedIconData != selectedIconData) {
-        // Update the view
-        if (originalView.contains(selectedIconData)) {
-          if (selectedIconData == Icons.home) {
-            viewsList[current_index] = allViews[homeOriginalIndex];
-          } else if (selectedIconData == Icons.favorite_border_outlined) {
-            viewsList[current_index] = allViews[likesOriginalIndex];
-          } else if (selectedIconData == Icons.search) {
-            viewsList[current_index] = allViews[searchOriginalIndex];
-          } else if (selectedIconData == Icons.settings) {
-            viewsList[current_index] = allViews[settingsOriginalIndex];
-          }
-        } else {
-          if (selectedIconData == Icons.face) {
-            viewsList[current_index] = bottomList[faceOriginalIndex];
-          } else if (selectedIconData == Icons.add_shopping_cart) {
-            viewsList[current_index] = bottomList[shoppingOriginalIndex];
-          } else if (selectedIconData == Icons.access_alarm_rounded) {
-            viewsList[current_index] = bottomList[alarmOriginalIndex];
-          } else if (selectedIconData == Icons.abc) {
-            viewsList[current_index] = bottomList[abcOriginalIndex];
-          }
-        }
+      final longPressedIconData = bottomNavBarItems[current_index].icon as Icon;
 
-        // Update the bottom nav item
-        bottomNavBarItems[current_index] = BottomNavigationBarItem(
-          label: '', // Empty string as label
-          icon: Icon(selectedIconData),
-        );
-        // Add the selected icon to the tracked list
-        selectedIcons.add(selectedIconData);
+      final originalViewIndex = originalViewIndexes[selectedIconData];
+      final bottomListIndex = bottomListIndexes[selectedIconData];
 
-        // Remove the selected icon from popupMenuItems
-        popupMenuItems.removeAt(selectedValue);
-        popupMenuItems.add((longPressedIconData.icon as Icon).icon!);
-
-        notifyListeners();
+      if (originalViewIndex != null) {
+        viewsList[current_index] = allViews[originalViewIndex];
+      } else if (bottomListIndex != null) {
+        viewsList[current_index] = bottomList[bottomListIndex];
       }
+
+      bottomNavBarItems[current_index] = BottomNavigationBarItem(
+        label: '',
+        icon: Icon(selectedIconData),
+      );
+
+      selectedIcons.add(selectedIconData);
+      popupMenuItems.removeAt(selectedValue);
+      popupMenuItems.add(longPressedIconData.icon!);
+
+      notifyListeners();
     }
   }
 }
