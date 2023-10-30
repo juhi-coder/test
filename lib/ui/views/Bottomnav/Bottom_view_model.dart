@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-
 import 'package:stacked/stacked.dart';
 import 'package:test/Screens/Face.dart';
 import 'package:test/Screens/Likes.dart';
 import 'package:test/Screens/Search.dart';
 import 'package:test/Screens/Setting.dart';
+import 'package:test/Screens/SettingScreen.dart';
 import 'package:test/Screens/ShoppingCart.dart';
 import 'package:test/Screens/abc.dart';
 import 'package:test/Screens/alarm.dart';
-import 'package:test/ui/views/home/home_view.dart';
+import 'package:test/ui/views/home/home_screen.dart';
 
 class BottomViewModel extends IndexTrackingViewModel {
   int currentTabIndex = 0;
-  final _bottomnavdata = Hive.box('bottomnav_data');
 
   void setTabIndex(int index) {
     currentTabIndex = index;
@@ -21,18 +19,19 @@ class BottomViewModel extends IndexTrackingViewModel {
   }
 
   List<Widget> allViews = [
-    Home(),
+    HomeScreen(),
     Likes(),
     Search(),
     Setting(),
     Face(),
     ShoppingCart(),
     Alarm(),
-    Abc()
+    Abc(),
+    SettingScreen()
   ];
 
   List<Widget> viewsList = [
-    Home(),
+    HomeScreen(),
     Likes(),
     Search(),
     Setting(),

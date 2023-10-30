@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:test/ui/views/home/home_viewmodel.dart';
+import 'package:test/db_helper.dart';
+import 'package:test/ui/views/home/home_screen.dart';
 
 class SettingScreen extends StatelessWidget {
-  const SettingScreen(this.viewModel, {super.key});
-  final HomeViewModel viewModel;
-
   @override
   Widget build(BuildContext context) {
+    // Create an instance of HomeScreen
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -24,6 +24,11 @@ class SettingScreen extends StatelessWidget {
       ),
       // bottomNavigationBar: BottomNavigation(),
     );
+  }
+
+  static Future<void> deleteAllDatas() async {
+    final db = await SQLHelper.db();
+    await db.delete('data');
   }
 
   void deleteAllData(BuildContext context) {
@@ -50,7 +55,7 @@ class SettingScreen extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                viewModel.deleteAllItems();
+                deleteAllDatas(); // Call the instance method
               },
             ),
           ],

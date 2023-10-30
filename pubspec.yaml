@@ -1,18 +1,19 @@
 name: test
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.0.3 <4.0.0'
+  sdk: ">=3.0.3 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   geolocator: ^10.1.0
-  hive_flutter: ^1.1.0
   http: ^1.1.0
   path_provider: ^2.1.1
+  sqflite: ^2.3.0
+  sqflite_common_ffi: ^2.3.0+2
   stacked: ^3.4.0
   stacked_services: ^1.1.0
 
@@ -26,4 +27,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
